@@ -1,0 +1,58 @@
+<html>
+<head><title>JIRA ShortCut Options</title></head>
+<script src="js/options.js"></script>
+<script src="js/config.js"></script>
+<link rel="stylesheet" href="css/options.css">
+
+
+<body>
+
+<form action="javascript:void(0);">
+  <p>
+  <label for='url_pattern'>Url pattern: &nbsp;</label>
+  <input id='url_pattern' />
+  </p>
+
+  <br>
+  <div>
+    <label for='example_url'>-=test url=-&nbsp;&nbsp;</label>
+    <input type='text' id='example_url' value='https://issues.apache.org/jira/browse/HADOOP-3629' />
+    <br>
+    <strong>--------------></strong>
+    <code id='example_url_out'></code>
+  </div>
+  <br>
+
+  <span>#########################################################################</span>
+  <p>
+  <label for='pattern'>Title pattern:</label>
+  <input id='pattern' />
+  </p>
+
+  <p>
+  <label for='replacment'>Out pattern:&nbsp;</label>
+  <input id='replacment' />
+  </p>
+
+</form>
+
+<br>
+
+<div>
+  <label for='example_title'>-=test title=-</label>
+  <input type='text' id='example_title' value='[#HADOOP-3629] Document the metrics produced by hadoop - ASF JIRA' />
+  <br>
+  <strong>--------------></strong>
+  <code id='example_out'></code>
+</div>
+<br>
+
+<span>#########################################################################</span>
+<br>
+<br>
+<button id="save">Save</button>
+<button id="reset">Defaults</button>
+
+<div id="status"></div>
+</body>
+</html>
