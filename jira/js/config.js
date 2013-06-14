@@ -1,5 +1,5 @@
 DEFAULT_CONFIG = {
-  'url_pattern' : 'jira.*/browse/',
+  'url_pattern' : '(jira|tickets)*/browse/',
   'pattern' :     '^\\[#([^\\]]+)\\](.*)( -[^-]+)$',
   'replacment' :  '$1:$2'
 };
