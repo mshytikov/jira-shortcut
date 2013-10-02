@@ -1,7 +1,7 @@
 DEFAULT_CONFIG = {
   'url_pattern' : '(jira|tickets)*/browse/',
   'pattern' :     '^\\[#([^\\]]+)\\](.*)( -[^-]+)$',
-  'replacment' :  '$1:$2'
+  'replacement' :  '$1:$2'
 };
 
 function config(key){

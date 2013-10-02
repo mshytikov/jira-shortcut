@@ -1,7 +1,7 @@
 function save_options() {
   set_config('url_pattern', document.getElementById('url_pattern').value);
   set_config('pattern', document.getElementById('pattern').value);
-  set_config('replacment', document.getElementById('replacment').value);
+  set_config('replacement', document.getElementById('replacement').value);
 
   //Update status to let user know options were saved.
   var status = document.getElementById("status");
@@ -14,7 +14,7 @@ function save_options() {
 function reset_to_defaults() {
   document.getElementById('url_pattern').value = DEFAULT_CONFIG['url_pattern'];
   document.getElementById('pattern').value = DEFAULT_CONFIG['pattern'];
-  document.getElementById('replacment').value = DEFAULT_CONFIG['replacment'];
+  document.getElementById('replacement').value = DEFAULT_CONFIG['replacement'];
   update_examples();
 };
 
@@ -23,7 +23,7 @@ function init_listeners(){
   document.getElementById('reset').addEventListener('click', reset_to_defaults);
 
   document.getElementById('pattern').addEventListener('change', update_title_example, false);
-  document.getElementById('replacment').addEventListener('change', update_title_example, false);
+  document.getElementById('replacement').addEventListener('change', update_title_example, false);
   document.getElementById('example_title').addEventListener('change', update_title_example, false);
 
   document.getElementById('url_pattern').addEventListener('change', update_url_example, false);
@@ -43,10 +43,10 @@ function update_url_example(){
 
 function update_title_example(){
   var pattern = new RegExp(document.getElementById('pattern').value);
-  var replacment = document.getElementById('replacment').value;
+  var replacement = document.getElementById('replacement').value;
 
   var title = document.getElementById('example_title').value;
-  var out = title.replace(pattern, replacment);
+  var out = title.replace(pattern, replacement);
   document.getElementById('example_out').innerHTML = out;
 };
 
@@ -55,7 +55,7 @@ function init() {
 
   document.getElementById('url_pattern').value =  config('url_pattern');
   document.getElementById('pattern').value =  config('pattern');
-  document.getElementById('replacment').value = config('replacment');
+  document.getElementById('replacement').value = config('replacement');
 
   update_examples();
 };

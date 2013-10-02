@@ -6,7 +6,8 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 };
 
 function prepareCopyContent(tab){
-  var result = tab.title.replace(regexp_config('pattern'), config('replacment'));
+  var replacement = config('replacement').replace("$url", tab.url)
+  var result = tab.title.replace(regexp_config('pattern'), replacement);
   return result;
 }
 
