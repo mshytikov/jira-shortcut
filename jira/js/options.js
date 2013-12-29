@@ -44,10 +44,20 @@ function update_url_example(){
 function update_title_example(){
   var pattern = new RegExp(document.getElementById('pattern').value);
   var replacement = document.getElementById('replacement').value;
+  var pattern = new RegExp(document.getElementById('pattern').value);
+  var url = document.getElementById('example_url').value;
+  replacement= replacement.replace("$url", url);
 
   var title = document.getElementById('example_title').value;
   var out = title.replace(pattern, replacement);
+  out = (out.indexOf("$html:") == 0) ? out.replace("$html:", "") :  escape_html(out);
   document.getElementById('example_out').innerHTML = out;
+};
+
+function escape_html(html){
+  var escapeEl = document.createElement('textarea');
+  escapeEl.textContent = html;
+  return escapeEl.innerHTML;
 };
 
 function init() {
