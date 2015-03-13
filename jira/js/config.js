@@ -1,7 +1,8 @@
 DEFAULT_CONFIG = {
   'url_pattern' : '(jira|tickets)*/browse/',
-  'pattern' :     '^\\[#([^\\]]+)\\](.*)( -[^-]+)$',
-  'replacement' :  '$html:<a href="$url">$1:$2</a>'
+  'pattern' :     '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
+  'replacement' :  '$html:<a href="$url">$1:$2</a>',
+  'example_title' : '[HADOOP-3629] Document the metrics produced by hadoop - ASF JIRA'
 };
 
 function config(key){

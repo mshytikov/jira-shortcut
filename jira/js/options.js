@@ -2,6 +2,7 @@ function save_options() {
   set_config('url_pattern', document.getElementById('url_pattern').value);
   set_config('pattern', document.getElementById('pattern').value);
   set_config('replacement', document.getElementById('replacement').value);
+  set_config('example_title', document.getElementById('example_title').value);
 
   //Update status to let user know options were saved.
   var status = document.getElementById("status");
@@ -15,6 +16,7 @@ function reset_to_defaults() {
   document.getElementById('url_pattern').value = DEFAULT_CONFIG['url_pattern'];
   document.getElementById('pattern').value = DEFAULT_CONFIG['pattern'];
   document.getElementById('replacement').value = DEFAULT_CONFIG['replacement'];
+  document.getElementById('example_title').value = DEFAULT_CONFIG['example_title'];
   update_examples();
 };
 
@@ -66,6 +68,7 @@ function init() {
   document.getElementById('url_pattern').value =  config('url_pattern');
   document.getElementById('pattern').value =  config('pattern');
   document.getElementById('replacement').value = config('replacement');
+  document.getElementById('example_title').value = config('example_title');
 
   update_examples();
 };
