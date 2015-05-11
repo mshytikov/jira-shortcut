@@ -1,6 +1,6 @@
 {
   "name": "JIRA ShortCut",
-  "version": "4.4.0",
+  "version": "4.5.0",
   "manifest_version": 2,
   "description": "Copy to clip board jira issue as 'CMD-999: Description'",
   "background": {
@@ -15,6 +15,13 @@
     "default_icon": "icon.png",
     "default_title": "Copy",
     "default_popup": "popup.html"
+  },
+  "commands": {
+    "_execute_page_action": {
+      "suggested_key": {
+        "default": "Ctrl+J"
+      }
+    }
   },
   "options_page" : "options.html"
 }
