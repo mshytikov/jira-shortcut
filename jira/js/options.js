@@ -1,76 +1,132 @@
-function save_options() {
-  set_config('url_pattern', document.getElementById('url_pattern').value);
-  set_config('pattern', document.getElementById('pattern').value);
-  set_config('replacement', document.getElementById('replacement').value);
-  set_config('example_title', document.getElementById('example_title').value);
-
-  //Update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Options Saved.";
-  setTimeout(function() {
-    status.innerHTML = "";
-  }, 750);
-};
-
-function reset_to_defaults() {
-  document.getElementById('url_pattern').value = DEFAULT_CONFIG['url_pattern'];
-  document.getElementById('pattern').value = DEFAULT_CONFIG['pattern'];
-  document.getElementById('replacement').value = DEFAULT_CONFIG['replacement'];
-  document.getElementById('example_title').value = DEFAULT_CONFIG['example_title'];
-  update_examples();
-};
-
-function init_listeners(){
-  document.getElementById('save').addEventListener('click', save_options);
-  document.getElementById('reset').addEventListener('click', reset_to_defaults);
-
-  document.getElementById('pattern').addEventListener('change', update_title_example, false);
-  document.getElementById('replacement').addEventListener('change', update_title_example, false);
-  document.getElementById('example_title').addEventListener('change', update_title_example, false);
-
-  document.getElementById('url_pattern').addEventListener('change', update_url_example, false);
-  document.getElementById('example_url').addEventListener('change', update_url_example, false);
-}
-function update_examples(){
-  update_title_example();
-  update_url_example();
-}
-
-function update_url_example(){
-  var pattern = new RegExp(document.getElementById('url_pattern').value);
-  var url = document.getElementById('example_url').value;
-  var out = url.match(pattern);
-  document.getElementById('example_url_out').innerHTML = out ? "OK": "DOES NOT MATCH";
-};
-
-function update_title_example(){
-  var pattern = new RegExp(document.getElementById('pattern').value);
-  var replacement = document.getElementById('replacement').value;
-  var pattern = new RegExp(document.getElementById('pattern').value);
-  var url = document.getElementById('example_url').value;
-  replacement= replacement.replace("$url", url);
-
-  var title = document.getElementById('example_title').value;
-  var out = title.replace(pattern, replacement);
-  out = (out.indexOf("$html:") == 0) ? out.replace("$html:", "") :  escape_html(out);
-  document.getElementById('example_out').innerHTML = out;
-};
-
 function escape_html(html){
   var escapeEl = document.createElement('textarea');
   escapeEl.textContent = html;
   return escapeEl.innerHTML;
 };
 
-function init() {
-  init_listeners();
+var Rule = function (id) {
+  this.id = id;
 
-  document.getElementById('url_pattern').value =  config('url_pattern');
-  document.getElementById('pattern').value =  config('pattern');
-  document.getElementById('replacement').value = config('replacement');
-  document.getElementById('example_title').value = config('example_title');
+  this.element = function(name) {
+      var element_id = name + this.id;
+      console.log(name);
+      return document.getElementById(element_id);
+  };
 
-  update_examples();
+  this.fields = {
+    url_pattern : this.element("url_pattern"),
+    pattern : this.element("pattern"),
+    replacement : this.element("replacement"),
+    example_title : this.element("example_title"),
+    example_url : this.element("example_url")
+  };
+
+  this.buttons = {
+    save : this.element("save"),
+    reset : this.element("reset")
+  };
+
+  this.outputs = {
+    status : this.element("status"),
+    example_out : this.element("example_out"),
+    example_url_out : this.element("example_url_out")
+  };
+
+  this.each_field = function(fn) {
+    for (var key in this.fields) {
+      fn(this.fields[key]);
+    }
+  };
+
+
+  this.init = function() {
+    this.init_listeners();
+    this.each_field(this.load_field);
+    this.update_examples();
+  };
+
+  this.reset_field = function(field) {
+    field.value = Config.default_config(field.id);
+  };
+
+  this.load_field = function(field) {
+    field.value = Config.config(field.id);
+  };
+
+  this.save_field = function(field) {
+    Config.set_config(field.id, field.value);
+  };
+
+  this.save_options = function() {
+    this.each_field(this.save_field);
+
+    //Update status to let user know options were saved.
+    this.update_status("Options Saved");
+  };
+
+  this.update_status = function(value) {
+    this.outputs.status.innerHTML = value;
+    setTimeout(this.clear_status.bind(this), 750);
+  };
+
+  this.clear_status = function() {
+    this.outputs.status.innerHTML = ""
+  };
+
+  this.reset_to_defaults = function() {
+    this.each_field(this.reset_field);
+    this.update_examples();
+  };
+
+  this.init_listeners = function(){
+    console.log(this.buttons.save);
+    this.buttons.save.addEventListener(
+      'click', this.save_options.bind(this));
+    this.buttons.reset.addEventListener(
+      'click', this.reset_to_defaults.bind(this));
+
+    this.fields.pattern.addEventListener(
+      'change', this.update_examples.bind(this), false);
+    this.fields.replacement.addEventListener(
+      'change', this.update_examples.bind(this), false);
+    this.fields.example_title.addEventListener(
+      'change', this.update_examples.bind(this), false);
+
+    this.fields.url_pattern.addEventListener(
+      'change', this.update_examples.bind(this), false);
+    this.fields.example_url.addEventListener(
+      'change', this.update_examples.bind(this), false);
+  };
+
+  this.update_examples = function(){
+    this.update_title_example();
+    this.update_url_example();
+  };
+
+  this.update_url_example = function(){
+    var pattern = new RegExp(this.fields.url_pattern.value);
+    var url = this.fields.example_url.value;
+    var out = url.match(pattern);
+    this.outputs.example_url_out.innerHTML = out ? "OK": "DOES NOT MATCH";
+  };
+
+  this.update_title_example = function(){
+    var pattern = new RegExp(this.fields.pattern.value);
+    var replacement = this.fields.replacement.value;
+    var pattern = new RegExp(this.fields.pattern.value);
+    var url = this.fields.example_url.value;
+    replacement= replacement.replace(/\$url/g, url);
+
+    var title = this.fields.example_title.value;
+    var out = title.replace(pattern, replacement);
+    out =(
+      out.indexOf("$html:") == 0 ?
+      out.replace("$html:", "") :
+      escape_html(out)
+    );
+    this.outputs.example_out.innerHTML = out;
+  };
+
 };
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', function(){ new Rule('').init() });
