@@ -1,3 +1,26 @@
 input {
   width : 500px;
 }
+
+form {
+  border-style: ridge;
+  border-color: #87CEEB;
+  padding: 10px;
+
+}
+.invalid[data-invalid]:before{
+  content: attr(data-invalid);
+  color: red;
+}
+
+.valid[data-invalid]:before{
+  content: attr(data-valid);
+  color: green;
+}
+
+.result-output {
+  border-style: ridge;
+  border-color: #87CEEB;
+  padding: 10px;
+}
+

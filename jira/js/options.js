@@ -107,7 +107,7 @@ var Rule = function (id) {
     var pattern = new RegExp(this.fields.url_pattern.value);
     var url = this.fields.example_url.value;
     var out = url.match(pattern);
-    this.outputs.example_url_out.innerHTML = out ? "OK": "DOES NOT MATCH";
+    this.outputs.example_url_out.className = out ? 'valid' : 'invalid' ;
   };
 
   this.update_title_example = function(){

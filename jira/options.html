@@ -1,62 +1,56 @@
 <html>
-<head><title>JIRA ShortCut Options</title></head>
-<script src="js/options.js"></script>
-<script src="js/config.js"></script>
-<link rel="stylesheet" href="css/options.css">
-
+<head>
+  <title>JIRA ShortCut Options</title>
+  <script src="js/options.js"></script>
+  <script src="js/config.js"></script>
+  <link rel="stylesheet" href="css/options.css">
+</head>
 
 <body>
-
-<form action="javascript:void(0);">
-  <p>
-  <label for='url_pattern'>Url pattern: &nbsp;</label>
-  <input id='url_pattern' />
-  </p>
-
-  <br>
-  <div>
-    <label for='example_url'>-=test url=-&nbsp;&nbsp;</label>
+  <form action="javascript:void(0);" >
+    <p>
+    <label for='example_url'>&nbsp;&nbsp;&nbsp;&nbsp;Test Url: &nbsp;</label>
     <input type='text' id='example_url' value='https://issues.apache.org/jira/browse/HADOOP-3629' />
+    </p>
+
+    <p>
+    <label for='example_title'>&nbsp;&nbsp;&nbsp;Test Title:&nbsp;</label>
+    <input type='text' id='example_title' />
+    </p>
+
+    <p>
+    <label for='url_pattern'>Url pattern: &nbsp;</label>
+    <input id='url_pattern' />
+    <span id='example_url_out' data-valid="Ok" data-invalid="Does not match">
+    </span>
+    </p>
+
+    <p>
+    <label for='pattern'>Title pattern:</label>
+    <input id='pattern' />
+    </p>
+
+    <p>
+    <label for='replacement'>Out pattern:&nbsp;</label>
+    <input id='replacement' />
     <br>
-    <strong>--------------></strong>
-    <code id='example_url_out'></code>
-  </div>
-  <br>
+    <small>Hint: you can use special pattern '$url' to paste page url</small>
+    <br>
+    <small>Hint: if your pattern starts with '$html:' then you can format your pattern as html content</small>
+    </p>
 
-  <span>#########################################################################</span>
-  <p>
-  <label for='pattern'>Title pattern:</label>
-  <input id='pattern' />
-  </p>
-
-  <p>
-  <label for='replacement'>Out pattern:&nbsp;</label>
-  <input id='replacement' />
-  <br>
-  <small>Hint: you can use special pattern '$url' to paste page url</small>
-  <br>
-  <small>Hint: if your pattern starts with '$html:' then you can format your pattern as html content</small>
-  </p>
-
-</form>
-
-<br>
-
-<div>
-  <label for='example_title'>-=test title=-</label>
-  <input type='text' id='example_title' />
-  <br>
-  <strong>--------------></strong>
-  <code id='example_out'></code>
-</div>
-<br>
-
-<span>#########################################################################</span>
-<br>
-<br>
-<button id="save">Save</button>
-<button id="reset">Defaults</button>
-
-<div id="status"></div>
+    <br>
+    <p>
+    <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Result: &nbsp;</strong>
+    <span class='result-output' id='example_out'></span>
+    </p>
+    <br>
+    <div>
+      <button type='button' id="save">Save</button>
+      <button type='button' id="reset">Defaults</button>
+      <strong id="status"></strong>
+    </div>
+  </form>
+  <button type='button' id="add_rule">Add rule</button>
 </body>
 </html>
