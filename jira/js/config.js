@@ -1,3 +1,10 @@
+function escape_html(html){
+  var escapeEl = document.createElement('textarea');
+  escapeEl.textContent = html;
+  return escapeEl.innerHTML;
+};
+
+
 Config = {
   get: function(key){
     return localStorage.getItem(key);
@@ -68,6 +75,23 @@ RuleConfig = function(id){
 
   this.remove = function() {
     Config.remove(this.id);
+  }
+
+  this.match = function(url) {
+    return url.match(new RegExp(this.get('url_pattern')));
+  }
+
+  this.apply = function(url, title) {
+    var title_pattern = new RegExp(this.fields.title_pattern);
+    var out_pattern = this.fields.out_pattern;
+    out_pattern = out_pattern.replace(/\$url/g, url);
+    var result = title.replace(title_pattern, out_pattern);
+    result =(
+      result.indexOf("$html:") == 0 ?
+      result.replace("$html:", "") :
+      escape_html(result)
+    );
+    return result;
   }
 
   this.init();

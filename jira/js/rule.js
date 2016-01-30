@@ -1,9 +1,3 @@
-function escape_html(html){
-  var escapeEl = document.createElement('textarea');
-  escapeEl.textContent = html;
-  return escapeEl.innerHTML;
-};
-
 var Rule = function (rootNode, config) {
   this.config = config;
   this.rootNode = rootNode;
@@ -104,24 +98,23 @@ var Rule = function (rootNode, config) {
     var pattern = new RegExp(this.fields.url_pattern.value);
     var url = this.fields.test_url.value;
     var out = url.match(pattern);
-    this.outputs.test_url_out.className = out ? 'valid' : 'invalid' ;
+    this.outputs.test_url_validation.className = out ? 'valid' : 'invalid' ;
+  };
+
+  // returns new config which is based on the values which not saved yet.
+  this.current_config = function() {
+    var config = new RuleConfig();
+    for (var field in this.fields) {
+      config.set(field, this.fields[field].value);
+    }
+    return config;
   };
 
   this.update_result = function(){
-    var pattern = new RegExp(this.fields.pattern.value);
-    var replacement = this.fields.replacement.value;
-    var pattern = new RegExp(this.fields.pattern.value);
+    var config = this.current_config();
     var url = this.fields.test_url.value;
-    replacement= replacement.replace(/\$url/g, url);
-
     var title = this.fields.test_title.value;
-    var out = title.replace(pattern, replacement);
-    out =(
-      out.indexOf("$html:") == 0 ?
-      out.replace("$html:", "") :
-      escape_html(out)
-    );
-    this.outputs.result.innerHTML = out;
+    this.outputs.result.innerHTML = config.apply(url, title);
   };
 
   this.remove = function(){
