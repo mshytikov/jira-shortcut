@@ -125,8 +125,11 @@ var Rule = function (rootNode, config) {
   };
 
   this.remove = function(){
-    this.config.remove();
-    this.rootNode.remove();
+    var confirmed =  confirm('Delete the rule?');
+    if (confirmed) {
+      this.config.remove();
+      this.rootNode.remove();
+    }
   }
 
   this.init();
