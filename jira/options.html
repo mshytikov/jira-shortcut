@@ -1,38 +1,40 @@
 <html>
 <head>
   <title>JIRA ShortCut Options</title>
+  <script src="js/rule.js"></script>
   <script src="js/options.js"></script>
   <script src="js/config.js"></script>
   <link rel="stylesheet" href="css/options.css">
 </head>
 
 <body>
-  <form action="javascript:void(0);" >
+  <form id='rule_template' action="javascript:void(0);" >
     <p>
     <label for='example_url'>&nbsp;&nbsp;&nbsp;&nbsp;Test Url: &nbsp;</label>
-    <input type='text' id='example_url' value='https://issues.apache.org/jira/browse/HADOOP-3629' />
+    <input type='text' data-id='example_url' />
     </p>
 
     <p>
     <label for='example_title'>&nbsp;&nbsp;&nbsp;Test Title:&nbsp;</label>
-    <input type='text' id='example_title' />
+    <input type='text' data-id='example_title' />
     </p>
 
     <p>
     <label for='url_pattern'>Url pattern: &nbsp;</label>
-    <input id='url_pattern' />
-    <span id='example_url_out' data-valid="Ok" data-invalid="Does not match">
+    <input data-id='url_pattern' />
+    <span data-id='example_url_out' data-valid="Ok" data-invalid="Does not match">
+      &nbsp;
     </span>
     </p>
 
     <p>
     <label for='pattern'>Title pattern:</label>
-    <input id='pattern' />
+    <input data-id='pattern' />
     </p>
 
     <p>
     <label for='replacement'>Out pattern:&nbsp;</label>
-    <input id='replacement' />
+    <input data-id='replacement' />
     <br>
     <small>Hint: you can use special pattern '$url' to paste page url</small>
     <br>
@@ -42,13 +44,15 @@
     <br>
     <p>
     <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Result: &nbsp;</strong>
-    <span class='result-output' id='example_out'></span>
+    <span class='result-output' data-id='example_out'>&nbsp;</span>
     </p>
     <br>
     <div>
-      <button type='button' id="save">Save</button>
-      <button type='button' id="reset">Defaults</button>
-      <strong id="status"></strong>
+      <button type='button' data-id="save">Save</button>
+      <button type='button' data-id="load">Load</button>
+      <button type='button' data-id="reset">Defaults</button>
+      <button type='button' data-id="remove">Remove</button>
+      <strong data-id="status">&nbsp;</strong>
     </div>
   </form>
   <button type='button' id="add_rule">Add rule</button>
