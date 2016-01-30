@@ -27,20 +27,18 @@ Config = {
 RuleConfig = function(id){
   this.id = id;
   this.defaults = {
+    test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
+    test_title : '[HADOOP-3629] Document the metrics produced by hadoop - ASF JIRA',
     url_pattern : '(jira|tickets)*/browse/',
-    example_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
-    pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
-    replacement : '$html:<a href="$url">$1:$2</a>',
-    example_title : '[HADOOP-3629] Document the metrics produced by hadoop - ASF JIRA'
+    title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
+    out_pattern : '$html:<a href="$url">$1:$2</a>'
   }
   this.fields = {};
 
   this.init = function () {
-    console.log(this.id);
     if(!this.id) {
       this.id = 'rule_' + Date.now();
     }
-    console.log(this.id);
     this.load();
   }
 
@@ -54,7 +52,6 @@ RuleConfig = function(id){
 
   this.set = function(field, value){
     this.fields[field] = value;
-    this.save();
   },
 
   this.save = function (){

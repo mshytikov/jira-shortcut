@@ -10,31 +10,31 @@
 <body>
   <form id='rule_template' action="javascript:void(0);" >
     <p>
-    <label for='example_url'>&nbsp;&nbsp;&nbsp;&nbsp;Test Url: &nbsp;</label>
-    <input type='text' data-id='example_url' />
+    <label for='test_url'>&nbsp;&nbsp;&nbsp;&nbsp;Test Url: &nbsp;</label>
+    <input type='text' data-id='test_url' />
     </p>
 
     <p>
-    <label for='example_title'>&nbsp;&nbsp;&nbsp;Test Title:&nbsp;</label>
-    <input type='text' data-id='example_title' />
+    <label for='test_title'>&nbsp;&nbsp;&nbsp;Test Title:&nbsp;</label>
+    <input type='text' data-id='test_title' />
     </p>
 
     <p>
     <label for='url_pattern'>Url pattern: &nbsp;</label>
     <input data-id='url_pattern' />
-    <span data-id='example_url_out' data-valid="Ok" data-invalid="Does not match">
+    <span data-id='test_url_validation' data-valid="Ok" data-invalid="Does not match">
       &nbsp;
     </span>
     </p>
 
     <p>
-    <label for='pattern'>Title pattern:</label>
-    <input data-id='pattern' />
+    <label for='title_pattern'>Title pattern:</label>
+    <input data-id='title_pattern' />
     </p>
 
     <p>
-    <label for='replacement'>Out pattern:&nbsp;</label>
-    <input data-id='replacement' />
+    <label for='out_pattern'>Out pattern:&nbsp;</label>
+    <input data-id='out_pattern' />
     <br>
     <small>Hint: you can use special pattern '$url' to paste page url</small>
     <br>
@@ -44,7 +44,7 @@
     <br>
     <p>
     <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Result: &nbsp;</strong>
-    <span class='result-output' data-id='example_out'>&nbsp;</span>
+    <span class='result-output' data-id='result'>&nbsp;</span>
     </p>
     <br>
     <div>
