@@ -4,7 +4,6 @@ function escape_html(html){
   return escapeEl.innerHTML;
 };
 
-
 Config = {
   get: function(key){
     return localStorage.getItem(key);
@@ -38,6 +37,12 @@ BgConfig = {
     BgConfig.load_rules();
     BgConfig.load_url_filters();
   },
+
+  force_reload: function() {
+    var bg = chrome.extension.getBackgroundPage();
+    if (bg) { bg.BgConfig.init(); }
+  },
+
 
   load_url_filters: function(){
     var filters = [];
@@ -100,7 +105,8 @@ RuleConfig = function(id){
 
   this.save = function (){
     Config.set(this.id, JSON.stringify(this.fields));
-  }
+    BgConfig.force_reload();
+  },
 
   this.load = function (){
     var value = Config.get(this.id);

@@ -8,7 +8,6 @@ function prepareCopyContent(tab){
   return data.join('<br>');
 }
 
-
 BgConfig.init();
 
 chrome.webNavigation.onDOMContentLoaded.addListener(
