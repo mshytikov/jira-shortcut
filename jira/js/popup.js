@@ -1,24 +1,15 @@
 function doCopy(data) {
-  document.getElementById('copy-clip').style.display = 'none';
-  document.getElementById('copy-clip-div').style.display = 'none';
-  var obj =  null;
+  var obj =  document.getElementById('copy-clip-div');
 
-  if(data.indexOf("$html:") == 0) {
-    obj = document.getElementById('copy-clip-div');
-    obj.style.display = '';
-    obj.contentEditable = true;
-    obj.innerHTML = data.replace("$html:", "");
-    obj.unselectable = false;
-    obj.focus();
-    document.execCommand('SelectAll');
-  } else {
-    obj = document.getElementById('copy-clip');
-    obj.style.display = '';
-    obj.value = data;
-    obj.focus();
-    obj.select();
-  }
+  obj.style.display = '';
+
+  obj.contentEditable = true;
+  obj.innerHTML = data;
+  obj.unselectable = false;
+  obj.focus();
+  document.execCommand('SelectAll');
   document.execCommand('Copy', false, null);
+
   obj.style.display = 'none'
 }
 

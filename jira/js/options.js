@@ -32,5 +32,4 @@ var Options = function(){
 
   this.init();
 }
-
 document.addEventListener('DOMContentLoaded', function(){ new Options() });

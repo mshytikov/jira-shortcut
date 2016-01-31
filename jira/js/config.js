@@ -29,7 +29,31 @@ Config = {
   removeAll: function(){
     localStorage.clear();
   }
-}
+};
+
+BgConfig = {
+  rules: [],
+  init : function() {
+    BgConfig.load_rules();
+  },
+
+  load_rules: function(){
+    var rules = []
+    Config.keys().forEach(function(rule_id){
+      rules.push(new RuleConfig(rule_id))
+    })
+    BgConfig.rules = rules;
+  },
+
+  has_rule: function(url){
+    for(var i in BgConfig.rules) {
+      if (BgConfig.rules[i].match(url)){
+        return true;
+      }
+    }
+    return false;
+  }
+};
 
 RuleConfig = function(id){
   this.id = id;
