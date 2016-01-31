@@ -66,27 +66,16 @@ var Rule = function (rootNode, config) {
   };
 
   this.init_listeners = function(){
-    this.buttons.save.addEventListener(
-      'click', this.save.bind(this));
-    this.buttons.load.addEventListener(
-      'click', this.load.bind(this));
-    this.buttons.reset.addEventListener(
-      'click', this.reset.bind(this));
-    this.buttons.remove.addEventListener(
-      'click', this.remove.bind(this));
 
+    for(var action in this.buttons) {
+      var target = this.buttons[action];
+      target.addEventListener('click', this[action].bind(this));
+    }
 
-    this.fields.title_pattern.addEventListener(
-      'change', this.update_outputs.bind(this), false);
-    this.fields.out_pattern.addEventListener(
-      'change', this.update_outputs.bind(this), false);
-    this.fields.test_title.addEventListener(
-      'change', this.update_outputs.bind(this), false);
-
-    this.fields.url_pattern.addEventListener(
-      'change', this.update_outputs.bind(this), false);
-    this.fields.test_url.addEventListener(
-      'change', this.update_outputs.bind(this), false);
+    for(var field in this.fields) {
+      var target = this.fields[field];
+      target.addEventListener('change', this.update_outputs.bind(this));
+    }
   };
 
   this.update_outputs = function(){
@@ -101,7 +90,7 @@ var Rule = function (rootNode, config) {
     this.outputs.test_url_validation.className = out ? 'valid' : 'invalid' ;
   };
 
-  // returns new config which is based on the values which not saved yet.
+  // returns new config which is based on the values which are not saved yet.
   this.current_config = function() {
     var config = new RuleConfig();
     for (var field in this.fields) {

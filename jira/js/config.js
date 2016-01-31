@@ -77,7 +77,7 @@ RuleConfig = function(id){
   this.id = id;
   this.defaults = {
     test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
-    test_title : '[HADOOP-3629] Document the metrics produced by hadoop - ASF JIRA',
+    test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
     url_pattern : '(jira|tickets)*/browse/',
     title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
     out_pattern : '$html:<a href="$url">$1:$2</a>'

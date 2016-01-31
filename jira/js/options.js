@@ -3,7 +3,7 @@ var Options = function(){
   this.template = document.getElementById('rule_template')
 
   this.buttons = {
-   add_rule : document.getElementById('add_rule')
+    add_rule : document.getElementById('add_rule')
   };
 
   this.init = function(){
