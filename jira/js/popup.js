@@ -13,7 +13,9 @@ function doCopy(data) {
   obj.style.display = 'none'
 }
 
-var bkg = chrome.extension.getBackgroundPage()
-chrome.tabs.getSelected(null, function(tab) {
-  doCopy(bkg.prepareCopyContent(tab));
+
+var bg = chrome.extension.getBackgroundPage();
+
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  doCopy(bg.prepareCopyContent(tabs[0]));
 })
