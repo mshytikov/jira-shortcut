@@ -10,6 +10,14 @@ function prepareCopyContent(tab){
   return rule.apply(tab.url, tab.title);
 }
 
+
 BgConfig.init();
-console.log(BgConfig.rules);
-chrome.tabs.onUpdated.addListener(checkForValidUrl);
+
+//chrome.tabs.onUpdated.addListener(checkForValidUrl);
+
+if (chrome.webNavigation && chrome.webNavigation.onDOMContentLoaded){
+  chrome.webNavigationtion.onDOMContentLoaded.addListener(
+    prepareCopyContent, { url: BgConfig.url_filters } );
+} else {
+//    chrome.tabs.onUpdated.addListener(checkForValidUrl);
+}

@@ -33,8 +33,19 @@ Config = {
 
 BgConfig = {
   rules: [],
+  url_filters: {},
   init : function() {
     BgConfig.load_rules();
+    BgConfig.load_url_filters();
+  },
+
+  load_url_filters: function(){
+    var filters = [];
+    for(var i in BgConfig.rules) {
+      var pattern = BgConfig.rules[i].get('url_pattern');
+      filters.push({ urlMatches: new RegExp(pattern) });
+    }
+    this.url_filters =  filters;
   },
 
   load_rules: function(){
@@ -52,7 +63,8 @@ BgConfig = {
       }
     }
     return false;
-  }
+  },
+
 };
 
 RuleConfig = function(id){
