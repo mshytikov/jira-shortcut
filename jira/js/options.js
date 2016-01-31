@@ -27,6 +27,7 @@ var Options = function(){
   }
 
   this.init_rules = function(){
+    Config.migrate_old_config();
     Config.keys().forEach(this.add_rule.bind(this))
   }
 
