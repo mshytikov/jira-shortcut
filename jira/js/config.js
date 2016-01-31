@@ -43,7 +43,7 @@ BgConfig = {
     var filters = [];
     for(var i in BgConfig.rules) {
       var pattern = BgConfig.rules[i].get('url_pattern');
-      filters.push({ urlMatches: new RegExp(pattern) });
+      filters.push({ urlMatches: pattern });
     }
     this.url_filters =  filters;
   },
@@ -56,15 +56,16 @@ BgConfig = {
     BgConfig.rules = rules;
   },
 
-  has_rule: function(url){
+  apply: function(url, title) {
+    var result = [];
     for(var i in BgConfig.rules) {
-      if (BgConfig.rules[i].match(url)){
-        return true;
+      var rule = BgConfig.rules[i];
+      if (rule.match(url)){
+        result.push(rule.apply(url, title))
       }
     }
-    return false;
-  },
-
+    return result;
+  }
 };
 
 RuleConfig = function(id){
