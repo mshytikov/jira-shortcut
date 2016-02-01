@@ -1,6 +1,6 @@
 {
   "name": "JIRA ShortCut",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "manifest_version": 2,
   "description": "Copy to clip board jira issue as 'CMD-999: Description'",
   "background": {
