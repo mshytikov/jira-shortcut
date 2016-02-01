@@ -8,7 +8,13 @@ function prepareCopyContent(tab){
   return data.join('<br>');
 }
 
-BgConfig.init();
+function init(){
+  BgConfig.init();
 
-chrome.webNavigation.onDOMContentLoaded.addListener(
-  showAction, { url: BgConfig.url_filters } );
+  if (BgConfig.url_filters.length > 0 ) {
+    chrome.webNavigation.onDOMContentLoaded.addListener(
+      showAction, { url: BgConfig.url_filters } );
+  }
+}
+
+init();

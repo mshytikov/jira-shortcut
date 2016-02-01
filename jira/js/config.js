@@ -52,8 +52,7 @@ BgConfig = {
   },
 
   force_reload: function() {
-    var bg = chrome.extension.getBackgroundPage();
-    if (bg) { bg.BgConfig.init(); }
+    chrome.runtime.getBackgroundPage(function(bg){ bg.init(); });
   },
 
 
