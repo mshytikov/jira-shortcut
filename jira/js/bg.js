@@ -1,7 +1,8 @@
-// Called when the url of a tab changes.
-function showAction(details) {
-  chrome.pageAction.show(details.tabId);
-};
+function checkForValidUrl(tabId, changeInfo, tab) {
+  if (BgConfig.match(tab.url)) {
+    chrome.pageAction.show(tabId);
+  }
+}
 
 function prepareCopyContent(tab){
   var data = BgConfig.apply(tab.url, tab.title);
@@ -9,12 +10,8 @@ function prepareCopyContent(tab){
 }
 
 function init(){
-  BgConfig.init();
-
-  if (BgConfig.url_filters.length > 0 ) {
-    chrome.webNavigation.onDOMContentLoaded.addListener(
-      showAction, { url: BgConfig.url_filters } );
-  }
+ BgConfig.init();
 }
 
 init();
+chrome.tabs.onUpdated.addListener(checkForValidUrl);

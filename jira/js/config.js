@@ -45,24 +45,21 @@ Config = {
 
 BgConfig = {
   rules: [],
-  url_filters: {},
   init : function() {
     BgConfig.load_rules();
-    BgConfig.load_url_filters();
   },
 
   force_reload: function() {
     chrome.runtime.getBackgroundPage(function(bg){ bg.init(); });
   },
 
-
-  load_url_filters: function(){
-    var filters = [];
+  match: function(url){
     for(var i in BgConfig.rules) {
-      var pattern = BgConfig.rules[i].get('url_pattern');
-      filters.push({ urlMatches: pattern });
+      if (BgConfig.rules[i].match(url)){
+        return true;
+      }
     }
-    this.url_filters =  filters;
+    return false;
   },
 
   load_rules: function(){
@@ -130,6 +127,7 @@ RuleConfig = function(id){
 
   this.remove = function() {
     Config.remove(this.id);
+    BgConfig.force_reload();
   }
 
   this.match = function(url) {

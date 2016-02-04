@@ -1,11 +1,10 @@
 {
   "name": "JIRA ShortCut",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "manifest_version": 2,
   "description": "Copy to clip board jira issue as 'CMD-999: Description'",
   "background": {
-    "scripts": [ "js/config.js","js/bg.js"],
-    "persistent": false
+    "scripts": [ "js/config.js","js/bg.js"]
   },
   "permissions" : [
     "tabs",
