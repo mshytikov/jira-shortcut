@@ -1,6 +1,6 @@
 {
   "name": "JIRA ShortCut",
-  "version": "5.0.2",
+  "version": "6.0.0",
   "manifest_version": 2,
   "description": "Copy to clip board jira issue as 'CMD-999: Description'",
   "background": {
@@ -10,7 +10,8 @@
     "tabs",
     "webNavigation",
     "background",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ],
   "page_action": {
     "default_icon": "icon.png",

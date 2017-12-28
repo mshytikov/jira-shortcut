@@ -38,22 +38,32 @@ var Rule = function (rootNode, config) {
       this.fields[field].value = this.config.get(field)
     }
     this.update_outputs();
-  }
+    this.update_status("Rule Defaults");
+  };
 
   this.save = function() {
     for (var field in this.fields) {
       this.config.set(field, this.fields[field].value)
     }
-    this.config.save();
-    this.update_status("Rule saved");
-  }
+    this.config.save(this.save_callback.bind(this));
+  };
+
+  this.save_callback = function(error) {
+    var msg = (error ? error : "Rule Saved" );
+    this.update_status(msg);
+  };
 
   this.load = function() {
-    this.config.load();
+    this.config.load(this.load_callback.bind(this));
+ };
+
+  this.load_callback= function(error) {
+    if (error) { this.update_status(error); return; }
     for (var field in this.fields) {
       this.fields[field].value = this.config.get(field)
     }
     this.update_outputs();
+    this.update_status("Rule Loaded");
   }
 
   this.update_status = function(value) {
@@ -109,10 +119,14 @@ var Rule = function (rootNode, config) {
   this.remove = function(){
     var confirmed =  confirm('Delete the rule?');
     if (confirmed) {
-      this.config.remove();
-      this.rootNode.remove();
+      this.config.remove(this.remove_callback.bind(this));
     }
-  }
+  };
+
+  this.remove_callback = function (err) {
+    if (err) { this.update_status(err); return; }
+    this.rootNode.remove();
+  };
 
   this.init();
 };

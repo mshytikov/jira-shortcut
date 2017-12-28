@@ -5,42 +5,33 @@ function escape_html(html){
 };
 
 Config = {
-  migrate_old_config: function() {
-    if (localStorage.getItem('pattern')){
-      var rule = new RuleConfig();
-      rule.set('test_url', "Please specify the Url"); // was not stored in 4.5.0
-      rule.set('test_title', localStorage['example_title']);
-      rule.set('url_pattern', localStorage['url_pattern']);
-      rule.set('title_pattern', localStorage['pattern']);
-      rule.set('out_pattern', localStorage['replacement']);
-      localStorage.clear();
-      rule.save();
-    }
+  storage: chrome.storage.sync,
+
+  get: function(key, callback){
+    Config.storage.get(key, Config.storage_callback(callback));
   },
 
-  get: function(key){
-    return localStorage.getItem(key);
+  set: function(key, value, callback){
+    var items = {};
+    items[key] = value;
+    Config.storage.set(items, Config.storage_callback(callback) );
   },
 
-  set: function(key, value){
-    localStorage.setItem(key, value);
+  remove: function(key, callback){
+    Config.storage.remove(key, Config.storage_callback(callback));
   },
 
-  remove: function(key){
-    localStorage.removeItem(key);
+  storage_callback: function(callback) {
+   return function(items) { callback(chrome.runtime.lastError, items) };
   },
 
-  keys: function() {
-    var keys = [];
-    for(var key in localStorage) {
-      keys.push(key)
-    }
-    return keys.sort();
+  get_all: function(callback) {
+    Config.get(null, callback);
   },
 
-  removeAll: function(){
-    localStorage.clear();
-  }
+  remove_all: function(){
+    Config.storage.clear();
+  },
 };
 
 BgConfig = {
@@ -63,10 +54,15 @@ BgConfig = {
   },
 
   load_rules: function(){
+    Config.get_all(BgConfig.load_rules_callback);
+  },
+
+  load_rules_callback: function(err, items) {
+    if(err) { console.log(err) ; return; };
     var rules = []
-    Config.keys().forEach(function(rule_id){
-      rules.push(new RuleConfig(rule_id))
-    })
+    for (rule_id  in items) {
+      rules.push(new RuleConfig(rule_id, items[rule_id]))
+    }
     BgConfig.rules = rules;
   },
 
@@ -82,57 +78,72 @@ BgConfig = {
   }
 };
 
-RuleConfig = function(id){
-  this.id = id;
+RuleConfig = function(id, fields){
+  this.id = (id ? id : ('rule_' + Date.now())) ;
   this.defaults = {
     test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
     test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
     url_pattern : '(jira|tickets)*/browse/',
     title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
     out_pattern : '$html:<a href="$url">$1:$2</a>'
-  }
-  this.fields = {};
+  };
 
-  this.init = function () {
-    if(!this.id) {
-      this.id = 'rule_' + Date.now();
-    }
-    this.load();
+  this.default_fields= function() {
+    return JSON.parse(JSON.stringify(this.defaults));
   }
+
+  this.fields = (fields ? fields : this.default_fields() );
 
   this.get =  function(field){
     return this.fields[field];
-  },
+  };
 
   this.reset = function() {
-    this.fields = JSON.parse(JSON.stringify(this.defaults));
-  }
+    this.fields = this.default_fields();
+  };
 
   this.set = function(field, value){
     this.fields[field] = value;
-  },
+  };
 
-  this.save = function (){
-    Config.set(this.id, JSON.stringify(this.fields));
+  this.save = function (status){
+    Config.set(
+      this.id,
+      this.fields,
+      this.save_callback.bind(this, status)
+    );
+  };
+
+  this.save_callback = function(status, err){
+    if(err) { status(err); return null };
     BgConfig.force_reload();
-  },
+    status();
+  };
 
-  this.load = function (){
-    var value = Config.get(this.id);
-    if(!value) {
-      value = JSON.stringify(this.defaults);
-    }
-    this.fields = JSON.parse(value);
-  }
+  this.load = function (status){
+    Config.get(this.id, this.load_callback.bind(this, status));
+  };
 
-  this.remove = function() {
-    Config.remove(this.id);
+  this.load_callback = function (status, err, items){
+    if(err) { status(err); return null };
+    var fields = items[this.id]
+    if (fields) { this.fields = fields; }
+    status();
+  };
+
+  this.remove = function(status) {
+    Config.remove(this.id, this.remove_callback.bind(this, status));
+  };
+
+  this.remove_callback = function(status, err) {
+    if(err) { status(err); return null };
     BgConfig.force_reload();
-  }
+    status();
+  };
 
   this.match = function(url) {
     return url.match(new RegExp(this.get('url_pattern')));
-  }
+  };
 
   this.apply = function(url, title) {
     var title_pattern = new RegExp(this.fields.title_pattern);
@@ -145,7 +156,5 @@ RuleConfig = function(id){
       escape_html(result)
     );
     return result;
-  }
-
-  this.init();
+  };
 }
