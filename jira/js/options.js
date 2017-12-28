@@ -12,28 +12,28 @@ var Options = function(){
 
     this.init_listeners();
     this.init_rules();
-  }
+  };
 
   this.init_listeners = function(){
     this.buttons.add_rule.addEventListener(
       'click', this.add_rule.bind(this, null));
-  }
+  };
 
   this.add_rule = function(id){
     var ruleNode = this.template.cloneNode(true);
 
     document.body.insertBefore(ruleNode, this.buttons.add_rule);
     new Rule(ruleNode, new RuleConfig(id));
-  }
+  };
 
   this.init_rules = function(){
     Config.get_all(this.init_rules_callback.bind(this));
-  }
+  };
 
-  this.init_rules_callback(err, items) {
+  this.init_rules_callback = function(err, items) {
     if(err) { console.log(err) ; return; };
-    Object(items).keys().sort().forEach(this.add_rule.bind(this));
-  }
+    Object.keys(items).sort().forEach(this.add_rule.bind(this));
+  };
 
   this.init();
 }
