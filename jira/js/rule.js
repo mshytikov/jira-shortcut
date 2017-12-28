@@ -109,10 +109,14 @@ var Rule = function (rootNode, config) {
   this.remove = function(){
     var confirmed =  confirm('Delete the rule?');
     if (confirmed) {
-      this.config.remove();
-      this.rootNode.remove();
+      this.config.remove(this.remove_callback.bind(this));
     }
-  }
+  };
+
+  this.remove_callback = function (err) {
+    if (err) { this.update_status("Error" + err); return; }
+    this.rootNode.remove();
+  };
 
   this.init();
 };

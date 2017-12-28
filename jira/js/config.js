@@ -5,41 +5,30 @@ function escape_html(html){
 };
 
 Config = {
-  migrate_old_config: function() {
-    if (localStorage.getItem('pattern')){
-      var rule = new RuleConfig();
-      rule.set('test_url', "Please specify the Url"); // was not stored in 4.5.0
-      rule.set('test_title', localStorage['example_title']);
-      rule.set('url_pattern', localStorage['url_pattern']);
-      rule.set('title_pattern', localStorage['pattern']);
-      rule.set('out_pattern', localStorage['replacement']);
-      localStorage.clear();
-      rule.save();
-    }
+  storage: chrome.storage.sync;
+
+  get: function(key, callback){
+    storage.get(key, storage_callback(callback));
   },
 
-  get: function(key){
-    return localStorage.getItem(key);
+  set: function(key, value, callback){
+    storage.set({key: value}, storage_callback(callback) );
   },
 
-  set: function(key, value){
-    localStorage.setItem(key, value);
+  remove: function(key, callback){
+    storage.remove(key, storage_callback(callback));
   },
 
-  remove: function(key){
-    localStorage.removeItem(key);
-  },
+  storage_callback: function(callback) {
+   return function(items) { callback(chrome.runtime.lastError, items) };
+  }
 
-  keys: function() {
-    var keys = [];
-    for(var key in localStorage) {
-      keys.push(key)
-    }
-    return keys.sort();
-  },
+  get_all: function(callback) {
+    get(null, callback);
+  }
 
-  removeAll: function(){
-    localStorage.clear();
+  remove_all: function(){
+    storage.clear()
   }
 };
 
@@ -105,7 +94,7 @@ RuleConfig = function(id){
   },
 
   this.reset = function() {
-    this.fields = JSON.parse(JSON.stringify(this.defaults));
+    this.fields = this.defaults;
   }
 
   this.set = function(field, value){
@@ -113,20 +102,31 @@ RuleConfig = function(id){
   },
 
   this.save = function (){
-    Config.set(this.id, JSON.stringify(this.fields));
+    Config.set(this.id, this.fields, this.save_callback);
+  },
+
+  this.save_callback = function(err){
+    if(err) { console.log(err); return null };
     BgConfig.force_reload();
   },
 
   this.load = function (){
-    var value = Config.get(this.id);
-    if(!value) {
-      value = JSON.stringify(this.defaults);
-    }
-    this.fields = JSON.parse(value);
+    Config.get(this.id, this.load_callback.bind(this));
+  }
+
+  this.load_callback = function (err, items){
+    if(err) { console.log(err); return null };
+    var value = items[this.id]
+    if (!value) { value = this.defaults; };
+    this.fields = value;
   }
 
   this.remove = function() {
-    Config.remove(this.id);
+    Config.remove(this.id, this.remove_callback);
+  }
+
+  this.remove_callback(err) {
+    if(err) { console.log(err); return null };
     BgConfig.force_reload();
   }
 
