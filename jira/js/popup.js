@@ -13,9 +13,24 @@ function doCopy(data) {
   obj.style.display = 'none'
 }
 
+function addRuleButton(name, data) {
+  var rules = document.getElementById('rules');
+  var ruleNode = document.createElement("BUTTON");
+  rules.appendChild(ruleNode);
+
+  ruleNode.appendChild(document.createTextNode("test"));
+  ruleNode.addEventListener('click', function() { doCopy(data) })
+}
+
+function addRules(data){
+  data.forEach(function(value) { addRuleButton("test", value) });
+}
+
 
 var bg = chrome.extension.getBackgroundPage();
 
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-  doCopy(bg.prepareCopyContent(tabs[0]));
+  var tab = tabs[0];
+  doCopy(bg.prepareCopyContent(tab));
+  addRules(bg.rulesData(tab))
 })
