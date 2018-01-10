@@ -71,7 +71,7 @@ BgConfig = {
     for(var i in BgConfig.rules) {
       var rule = BgConfig.rules[i];
       if (rule.match(url)){
-        result.push(rule.apply(url, title))
+        result.push({ name: rule.getName(), content: rule.apply(url, title)})
       }
     }
     return result;
@@ -81,25 +81,55 @@ BgConfig = {
 RuleConfig = function(id, fields){
   this.id = (id ? id : ('rule_' + Date.now())) ;
   this.defaults = {
-    test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
-    test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
-    url_pattern : '(jira|tickets)*/browse/',
-    title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
-    out_pattern : '$html:<a href="$url">$1:$2</a>'
+    email : {
+      name: "Email",
+      test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
+      test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
+      url_pattern : '(jira|tickets)*/browse/',
+      title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
+      out_pattern : '$html:<a href="$url">$1:$2</a>'
+    },
+    email_short : {
+      name: "Email short",
+      test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
+      test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
+      url_pattern : '(jira|tickets)*/browse/',
+      title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
+      out_pattern : '$html:<a href="$url">$1</a>'
+    },
+    markdown : {
+      name: "Markdown",
+      test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
+      test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
+      url_pattern : '(jira|tickets)*/browse/',
+      title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
+      out_pattern : '[$1: $2]($url)'
+    },
+    markdown_short : {
+      name: "Markdown short",
+      test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
+      test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
+      url_pattern : '(jira|tickets)*/browse/',
+      title_pattern : '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
+      out_pattern : '[$1]($url)'
+    }
   };
 
-  this.default_fields= function() {
-    return JSON.parse(JSON.stringify(this.defaults));
+  this.default_fields= function(type) {
+    return JSON.parse(JSON.stringify(this.defaults[type]));
   }
 
-  this.fields = (fields ? fields : this.default_fields() );
+  this.fields = (fields ? fields : this.default_fields("email") );
 
+  this.getName = function() {
+    return this.get("name") || "rule";
+  };
   this.get =  function(field){
     return this.fields[field];
   };
 
-  this.reset = function() {
-    this.fields = this.default_fields();
+  this.reset = function(type) {
+    this.fields = this.default_fields(type);
   };
 
   this.set = function(field, value){

@@ -4,11 +4,16 @@
   <script src="js/config.js"></script>
   <script src="js/rule.js"></script>
   <script src="js/options.js"></script>
-  <link rel="stylesheet" href="css/options.css">
+  <link rel="stylesheet" href="css/options.css" />
 </head>
 
 <body>
   <form id='rule_template' action="javascript:void(0);" >
+    <p>
+    <label for='name'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name: &nbsp;</label>
+    <input type='text' data-id='name' />
+    </p>
+
     <p>
     <label for='test_url'>&nbsp;&nbsp;&nbsp;&nbsp;Test Url: &nbsp;</label>
     <input type='text' data-id='test_url' />
@@ -48,9 +53,14 @@
     </p>
     <br>
     <div>
+      <h5>Default configs:</h5>
+      <button type='button' data-id="reset-email">Email</button>
+      <button type='button' data-id="reset-markdown">Markdown</button>
+      <button type='button' data-id="reset-email_short">Email short</button>
+      <button type='button' data-id="reset-markdown_short">Markdown short</button>
+      <h5>Actions</h5>
       <button type='button' data-id="save">Save</button>
       <button type='button' data-id="load">Load</button>
-      <button type='button' data-id="reset">Defaults</button>
       <button type='button' data-id="remove">Remove</button>
       <strong data-id="status">&nbsp;</strong>
     </div>
