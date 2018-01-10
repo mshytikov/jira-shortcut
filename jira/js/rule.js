@@ -18,8 +18,11 @@ var Rule = function (rootNode, config) {
   this.buttons = {
     save : this.element("save"),
     load : this.element("load"),
-    reset : this.element("reset"),
-    remove : this.element("remove")
+    remove : this.element("remove"),
+    reset_email : this.element("reset-email"),
+    reset_markdown : this.element("reset-markdown"),
+    reset_email_short : this.element("reset-email_short"),
+    reset_markdown_short : this.element("reset-markdown_short"),
   };
 
   this.outputs = {
@@ -33,8 +36,9 @@ var Rule = function (rootNode, config) {
     this.load();
   };
 
-  this.reset = function() {
-    this.config.reset();
+  this.reset = function(e) {
+    var defaults_type = e.dataset.id.replace("reset-","");
+    this.config.reset(defaults_type);
     for (var field in this.fields) {
       this.fields[field].value = this.config.get(field)
     }
@@ -80,7 +84,8 @@ var Rule = function (rootNode, config) {
 
     for(var action in this.buttons) {
       var target = this.buttons[action];
-      target.addEventListener('click', this[action].bind(this));
+      if (action.startsWith("reset")) { action = "reset" };
+      target.addEventListener('click', this[action].bind(this, target));
     }
 
     for(var field in this.fields) {
