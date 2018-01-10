@@ -71,7 +71,7 @@ BgConfig = {
     for(var i in BgConfig.rules) {
       var rule = BgConfig.rules[i];
       if (rule.match(url)){
-        result.push(rule.apply(url, title))
+        result.push({ name: rule.getName(), content: rule.apply(url, title)})
       }
     }
     return result;
@@ -81,6 +81,7 @@ BgConfig = {
 RuleConfig = function(id, fields){
   this.id = (id ? id : ('rule_' + Date.now())) ;
   this.defaults = {
+    name: "default",
     test_url : 'https://issues.apache.org/jira/browse/HADOOP-3629',
     test_title : '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
     url_pattern : '(jira|tickets)*/browse/',
@@ -94,6 +95,9 @@ RuleConfig = function(id, fields){
 
   this.fields = (fields ? fields : this.default_fields() );
 
+  this.getName = function() {
+    return this.get("name") || "rule";
+  };
   this.get =  function(field){
     return this.fields[field];
   };

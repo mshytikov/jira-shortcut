@@ -4,13 +4,8 @@ function checkForValidUrl(tabId, changeInfo, tab) {
   }
 }
 
-function prepareCopyContent(tab){
-  return rulesData(tab).join('<br>');
-}
-
 function rulesData(tab){
-  var data = BgConfig.apply(tab.url, tab.title);
-  return data;
+  return BgConfig.apply(tab.url, tab.title);
 }
 
 function init(){

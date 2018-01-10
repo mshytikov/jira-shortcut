@@ -7,6 +7,7 @@ var Rule = function (rootNode, config) {
   };
 
   this.fields = {
+    name : this.element("name"),
     test_url : this.element("test_url"),
     test_title : this.element("test_title"),
     url_pattern : this.element("url_pattern"),
