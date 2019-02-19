@@ -26,6 +26,11 @@ function addRuleButton(name, value) {
 
 function addRules(data){
   data.forEach(function(rule) { addRuleButton(rule.name, rule.content) });
+  // focus the first rule for keyboard users
+  let firstRuleElement = document.getElementById('rules').firstElementChild;
+  if (firstRuleElement != null) {
+    firstRuleElement.focus();
+  }
 }
 
 
