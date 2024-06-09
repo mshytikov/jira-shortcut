@@ -33,12 +33,16 @@ function addRules(data){
   }
 }
 
+function popupInit(bgConfig){
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    var tab = tabs[0];
+    var rules_data = bgConfig.apply(tab.url, tab.title);
+    doCopy(rules_data[0].content, false);
+    addRules(rules_data);
+  })
+}
 
-var bg = chrome.extension.getBackgroundPage();
 
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-  var tab = tabs[0];
-  var rules_data = bg.rulesData(tab);
-  doCopy(rules_data[0].content, false);
-  addRules(rules_data);
-})
+document.addEventListener('DOMContentLoaded', function() {
+  BgConfig.init(popupInit);
+});

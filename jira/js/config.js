@@ -36,13 +36,12 @@ Config = {
 
 BgConfig = {
   rules: [],
-  init : function() {
+  init : function(callback) {
+    if (!callback) { callback = function() {} }
+    BgConfig.init_complete_callback = callback;
     BgConfig.load_rules();
   },
 
-  force_reload: function() {
-    chrome.runtime.getBackgroundPage(function(bg){ bg.init(); });
-  },
 
   match: function(url){
     for(var i in BgConfig.rules) {
@@ -64,6 +63,8 @@ BgConfig = {
       rules.push(new RuleConfig(rule_id, items[rule_id]))
     }
     BgConfig.rules = rules;
+
+    BgConfig.init_complete_callback(BgConfig);
   },
 
   apply: function(url, title) {
@@ -146,7 +147,6 @@ RuleConfig = function(id, fields){
 
   this.save_callback = function(status, err){
     if(err) { status(err); return null };
-    BgConfig.force_reload();
     status();
   };
 
@@ -167,7 +167,6 @@ RuleConfig = function(id, fields){
 
   this.remove_callback = function(status, err) {
     if(err) { status(err); return null };
-    BgConfig.force_reload();
     status();
   };
 

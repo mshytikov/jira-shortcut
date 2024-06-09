@@ -34,7 +34,6 @@ var Options = function(){
     var confirmed =  confirm('Delete all rules?');
     if (confirmed) {
       Config.remove_all();
-      BgConfig.force_reload();
       location.reload();
     }
   };
