@@ -24,3 +24,73 @@ form {
   padding: 10px;
 }
 
+/* AI generated style */
+
+.actions-button-container button {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4285f4;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.actions-button-container button:hover {
+  background-color: #357ae8;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.actions-button-container button:active {
+  background-color: #2856c2;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+.actions-button-container button.secondary {
+    background-color: #adb5bd;
+}
+.actions-button-container button.secondary:hover {
+    background-color: #999fa5;
+}
+.actions-button-container button.secondary:active {
+    background-color: #868b8f;
+}
+
+.button-container button {
+  padding: 4px 8px;
+  font-size: 12px;
+  border: none;
+  border-radius: 3px;
+  background-color: #e9ecef;
+  color: #343a40;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.button-container button:hover {
+  background-color: #dee2e6;
+  box-shadow: 1.5px 1.5px 3px rgba(0, 0, 0, 0.1);
+}
+
+.button-container button:active {
+  background-color: #ced4da;
+  box-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.02);
+  transform: translateY(1px);
+}
+
+.button-container button.secondary {
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.button-container button.secondary:hover {
+    background-color: #f2f3f5;
+}
+
+.button-container button.secondary:active {
+    background-color: #e9ecef;
+}
