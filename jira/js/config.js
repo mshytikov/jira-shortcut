@@ -115,15 +115,23 @@ RuleConfig = function(id, fields) {
       out_pattern: '[$1]($url)'
     },
 
-    markdown_short: {
-      name: "Markdown short",
-      test_url: 'https://issues.apache.org/jira/browse/HADOOP-3629',
-      test_title: '[HADOOP-3629] Document the metrics produced by hadoop - JIRA',
+    custom_v1_jira_slack: {
+      name: "Slack (v1)",
+      test_url: 'https://issues.apache.org/jira/browse/HADOOP-19092',
+      test_title: '[HADOOP-19092] ABFS phase 4: post Hadoop 3.4.0 features - Enterprise JIRA',
       url_pattern: '(jira|tickets)*/browse/',
       title_pattern: '^\\[#?([^\\]]+)\\](.*)( -[^-]+)$',
-      out_pattern: '[$1]($url)'
+      out_pattern: '`$1`: [$2]($url)'
     },
 
+    custom_v1_github_slack: {
+      name: "Slack (v1)",
+      test_url: 'https://github.com/mshytikov/jira-shortcut/pull/10',
+      test_title: 'Migrated to Manifest v3 by mshytikov · Pull Request #10 · mshytikov/jira-shortcut · GitHub',
+      url_pattern: 'github.*\\.com/.*/pull/',
+      title_pattern: '(.*) by .* · Pull Request (.*)',
+      out_pattern: '*$1* $url'
+    },
   };
 
   this.default_fields = function(type) {

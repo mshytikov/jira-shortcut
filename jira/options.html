@@ -1,5 +1,6 @@
 <html>
 <head>
+  <meta charset="utf-8">
   <title>JIRA ShortCut Options</title>
   <script src="js/config.js"></script>
   <script src="js/rule.js"></script>
@@ -55,16 +56,26 @@
     </p>
     <br>
     <div>
-      <h5>Default configs:</h5>
-      <button type='button' data-id="reset-email">Email</button>
-      <button type='button' data-id="reset-markdown">Markdown</button>
-      <button type='button' data-id="reset-email_short">Email short</button>
-      <button type='button' data-id="reset-markdown_short">Markdown short</button>
-      <h5>Actions</h5>
-      <button type='button' data-id="save">Save</button>
-      <button type='button' data-id="load">Load</button>
-      <button type='button' data-id="remove">Remove</button>
-      <strong data-id="status">&nbsp;</strong>
+      <div class="button-container">
+        <h4>Default config examples:</h4>
+        <label>Basic (jira) :&nbsp;</label>
+        <button type='button' data-id="reset-email">Email</button>
+        <button type='button' data-id="reset-email_short">Email short</button>
+        <button type='button' data-id="reset-markdown">Markdown</button>
+        <button type='button' data-id="reset-markdown_short">Markdown short</button>
+        <br>
+        <br>
+        <label>Custom v1 :&nbsp;</label>
+        <button type='button' data-id="reset-custom_v1_jira_slack">Jira (slack)</button>
+        <button type='button' data-id="reset-custom_v1_github_slack">GitHub PR (slack)</button>
+      </div>
+      <div class="actions-button-container">
+        <h3>Actions</h3>
+        <button type='button' data-id="save">Save</button>
+        <button type='button' data-id="load">Load</button>
+        <button type='button' data-id="remove">Remove</button>
+        <strong data-id="status">&nbsp;</strong>
+      </div>
     </div>
   </form>
   <button type='button' id="add_rule">Add rule</button>

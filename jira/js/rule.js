@@ -23,6 +23,8 @@ var Rule = function(rootNode, config) {
     reset_markdown: this.element("reset-markdown"),
     reset_email_short: this.element("reset-email_short"),
     reset_markdown_short: this.element("reset-markdown_short"),
+    reset_custom_v1_jira_slack: this.element("reset-custom_v1_jira_slack"),
+    reset_custom_v1_github_slack: this.element("reset-custom_v1_github_slack"),
   };
 
   this.outputs = {
