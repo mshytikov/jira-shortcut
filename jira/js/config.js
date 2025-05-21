@@ -129,8 +129,8 @@ RuleConfig = function(id, fields) {
       test_url: 'https://github.com/mshytikov/jira-shortcut/pull/10',
       test_title: 'Migrated to Manifest v3 by mshytikov · Pull Request #10 · mshytikov/jira-shortcut · GitHub',
       url_pattern: 'github.*\\.com/.*/pull/',
-      title_pattern: '(.*) by .* · Pull Request (.*)',
-      out_pattern: '*$1* $url'
+      title_pattern: '(.*) by .* · Pull Request .*/([^\\s]+).*',
+      out_pattern: '*$2 PR:* [$1]($url)'
     },
   };
 
